@@ -9,21 +9,21 @@ import (
 )
 
 var (
-        t float64
+        n float64
 )
 
 func main() {
-        flag.Float64Var(&t, "t", 5, "loop interval second")
+        flag.Float64Var(&n, "n", 5, "loop interval second")
         flag.Parse()
         args := flag.Args()
 
-        span := time.Duration(t)
+        span := time.Duration(n)
         var cmd *exec.Cmd
 
         for {
                 <-time.After(span * time.Second)
-                if len(args) > 0 {
-                        cmd = exec.Command(args[0], args[1:]...)
+                if len(args) == 1 {
+                        cmd = exec.Command("sh", "-c", args[0])
                         cmd.Stdout = os.Stdout
                         cmd.Stderr = os.Stderr
                         if err := cmd.Run(); err != nil {
