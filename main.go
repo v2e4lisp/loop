@@ -21,7 +21,6 @@ func main() {
         var cmd *exec.Cmd
 
         for {
-                <-time.After(span * time.Second)
                 if len(args) == 1 {
                         cmd = exec.Command("sh", "-c", args[0])
                         cmd.Stdout = os.Stdout
@@ -31,5 +30,6 @@ func main() {
                                 os.Exit(1)
                         }
                 }
+                <-time.After(span * time.Second)
         }
 }
