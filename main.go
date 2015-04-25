@@ -13,7 +13,7 @@ var (
 )
 
 func main() {
-        flag.Float64Var(&n, "n", 5, "loop interval second")
+        flag.Float64Var(&n, "n", 2, "loop interval second")
         flag.Parse()
         args := flag.Args()
 
