@@ -9,11 +9,11 @@ import (
 )
 
 var (
-        t int
+        t float64
 )
 
 func main() {
-        flag.IntVar(&t, "t", 5, "loop interval second")
+        flag.Float64Var(&t, "t", 5, "loop interval second")
         flag.Parse()
         args := flag.Args()
 
