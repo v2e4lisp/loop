@@ -14,16 +14,19 @@ import (
 var (
         interval time.Duration
         s        bool
+        e        bool
 )
 
 func main() {
         flag.Usage = func() {
-                fmt.Println("loop [-n interval] [-s] command")
-                fmt.Println("\nOPTIONS:")
+                fmt.Println("Usage:")
+                fmt.Println("  loop [-n interval] [-s] command")
+                fmt.Println("\nOptions:")
                 flag.PrintDefaults()
         }
         flag.DurationVar(&interval, "n", 2*time.Second, "Interval between command execution")
-        flag.BoolVar(&s, "s", false, "trap SIGTERM SIGINT SIGHUP")
+        flag.BoolVar(&s, "s", false, "Trap SIGTERM SIGINT SIGHUP")
+        flag.BoolVar(&e, "e", false, "Exit if error occurs when execute the command")
         flag.Parse()
         if flag.NArg() < 1 {
                 flag.Usage()
@@ -47,7 +50,9 @@ func main() {
                 c.Stderr = os.Stderr
                 if err := c.Run(); err != nil {
                         fmt.Println(err)
-                        os.Exit(1)
+                        if e {
+                                os.Exit(1)
+                        }
                 }
                 <-time.After(interval)
         }
